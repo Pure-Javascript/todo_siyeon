@@ -1,6 +1,5 @@
 html {
   font-family: "Avenir Next", Helevetica, sans-serif;
-  text-align: center;
 }
 
 body {
@@ -9,10 +8,9 @@ body {
 }
 
 input {
-  padding-top: 30px;
-  width: 500px;
-  height: 60px;
-  font-size: 40px;
+  width: 10rem;
+  height: 4rem;
+  font-size: 3rem;
   border: 0;
 }
 
@@ -22,11 +20,7 @@ input:focus {
 
 li {
   text-align: left;
-  font-size: 40px;
+  font-size: 2rem;
   list-style: none;
   margin: 0;
-}
-
-li:hover {
-  text-decoration: line-through;
 }

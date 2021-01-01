@@ -1,63 +1,74 @@
-const todoListData = localStorage.getItem("TODO");
-let todoList, id;
+let addButton = document.querySelector("#add");
+let addInput = document.querySelector("#item");
 
-const removeItem = (event) => {
-  const element = event.target;
-  element.remove();
-  localStorage.removeItem("TODO", element);
-  localStorage.setItem("TODO", JSON.stringify(todoList));
-};
+let removeButton = "X";
+let completeButton = "V";
 
-const newItem = (todo, id, done) => {
-  const ul = document.getElementById("list");
-  const li = document.createElement("li");
-
-  li.appendChild(document.createTextNode(id + todo));
-  li.setAttribute("id", id);
-  ul.appendChild(li);
-
-  todo = document.getElementById("input").value = "";
-  li.onclick = removeItem;
-};
-
-document.body.onkeyup = function (e) {
-  if (e.keyCode === 13) {
-    var todo = document.getElementById("input").value;
-    newItem(todo, id, false);
-    todoList.push({
-      name: todo,
-      id: id,
-      done: false
-    });
-    localStorage.setItem("TODO", JSON.stringify(todoList));
-    id++;
+addButton.addEventListener("click", function () {
+  let newItem = document.getElementById("item").value;
+  if (newItem) {
+    addItem(newItem);
+    document.getElementById("item").value = "";
   }
-  if (e.keyCode === 46) {
-    window.localStorage.clear();
+});
+
+addInput.addEventListener("keypress", function (e) {
+  if (13 === e.keyCode) {
+    let newItem = document.getElementById("item").value;
+    if (newItem) {
+      addItem(newItem);
+      document.getElementById("item").value = "";
+    }
   }
+});
+
+const makeButtons = () => {
+  let buttons = document.createElement("div");
+  buttons.classList.add("buttons");
+
+  let remove = document.createElement("button");
+  remove.classList.add("remove");
+  remove.innerHTML = removeButton;
+  remove.addEventListener("click", removeItem);
+
+  let complete = document.createElement("button");
+  complete.classList.add("complete");
+  complete.innerHTML = completeButton;
+  complete.addEventListener("click", completeItem);
+
+  buttons.appendChild(remove);
+  buttons.appendChild(complete);
+
+  return buttons;
 };
 
-//TODO
-// const completeItem = (element) => {};
+const addItem = (text) => {
+  let list = document.getElementById("todo");
+  let item = document.createElement("li");
 
-// const list = document.getElementById("list");
-// list.addEventListener("click", function (event) {
-//   const element = event.target;
-//   // completeItem(element);
-//   localStorage.setItem("TODO", JSON.stringify(todoList));
-// });
+  item.innerText = text;
+  list.setAttribute("contenteditable", true);
 
-const loadData = (array) => {
-  array.forEach(function (todo) {
-    newItem(todo.name, todo.id, todo.done);
-  });
+  const buttons = makeButtons();
+  item.appendChild(buttons);
+  list.insertBefore(item, list.childNodes[0]);
 };
 
-if (todoListData) {
-  todoList = JSON.parse(todoListData);
-  loadData(todoList);
-  id = todoList.length;
-} else {
-  id = 0;
-  todoList = [];
+function completeItem() {
+  let item = this.parentNode.parentNode;
+  let parent = item.parentNode;
+  let id = parent.id;
+
+  let target =
+    id === "todo"
+      ? document.getElementById("completed")
+      : document.getElementById("todo");
+  parent.removeChild(item);
+  target.insertBefore(item, target.childNodes[0]);
+}
+
+function removeItem() {
+  let item = this.parentNode.parentNode;
+  let parent = item.parentNode;
+  parent.removeChild(item);
 }

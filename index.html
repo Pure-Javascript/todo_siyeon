@@ -1,17 +1,21 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
   <head>
+    <title>Siyeon's Todo</title>
     <meta charset="UTF-8" />
-    <title>Siyeon's TODO</title>
-    <link rel="stylesheet" type="text/css" href="/src/css/styles.css" />
   </head>
+
   <body>
-    <script type="text/javascript" src="src/index.js" defer></script>
-    <div class="container">
-      <div class="content">
-        <input id="input" placeholder="Add Item.." />
-        <ul id="list"></ul>
-      </div>
+    <script type="text/javascript" src="src/index.js"></script>
+    <div id="container">
+      <header>
+        <input type="text" placeholder="Enter an activity..." id="item" />
+        <button id="add">+</button>
+      </header>
+      <h2>To Do</h2>
+      <ul class="todo" id="todo"></ul>
+      <h2>Completed</h2>
+      <ul class="completed" id="completed"></ul>
     </div>
   </body>
 </html>
