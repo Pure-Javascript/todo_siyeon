@@ -1,37 +1,37 @@
-let addButton = document.querySelector("#add");
-let addInput = document.querySelector("#item");
+const addButton = document.querySelector("#add");
+const addInput = document.querySelector("#item");
 
-let removeButton = "X";
-let completeButton = "V";
+const removeButton = "X";
+const completeButton = "V";
 
-addButton.addEventListener("click", function () {
-  let newItem = document.getElementById("item").value;
+const getAndAddItem = () => {
+  const newItem = addInput.value;
   if (newItem) {
     addItem(newItem);
     document.getElementById("item").value = "";
   }
+};
+
+addButton.addEventListener("click", function () {
+  getAndAddItem();
 });
 
-addInput.addEventListener("keypress", function (e) {
+addInput.addEventListener("keydown", function (e) {
   if (13 === e.keyCode) {
-    let newItem = document.getElementById("item").value;
-    if (newItem) {
-      addItem(newItem);
-      document.getElementById("item").value = "";
-    }
+    getAndAddItem();
   }
 });
 
 const makeButtons = () => {
-  let buttons = document.createElement("div");
+  const buttons = document.createElement("div");
   buttons.classList.add("buttons");
 
-  let remove = document.createElement("button");
+  const remove = document.createElement("button");
   remove.classList.add("remove");
   remove.innerHTML = removeButton;
   remove.addEventListener("click", removeItem);
 
-  let complete = document.createElement("button");
+  const complete = document.createElement("button");
   complete.classList.add("complete");
   complete.innerHTML = completeButton;
   complete.addEventListener("click", completeItem);
@@ -43,32 +43,32 @@ const makeButtons = () => {
 };
 
 const addItem = (text) => {
-  let list = document.getElementById("todo");
-  let item = document.createElement("li");
+  const list = document.getElementById("todo");
+  const item = document.createElement("li");
 
   item.innerText = text;
-  list.setAttribute("contenteditable", true);
+  // list.setAttribute("contenteditable", true);
 
   const buttons = makeButtons();
   item.appendChild(buttons);
   list.insertBefore(item, list.childNodes[0]);
 };
 
-function completeItem() {
-  let item = this.parentNode.parentNode;
-  let parent = item.parentNode;
-  let id = parent.id;
+const completeItem = (e) => {
+  const item = e.target.parentNode.parentNode;
+  const parent = item.parentNode;
+  const id = parent.id;
 
-  let target =
+  const target =
     id === "todo"
       ? document.getElementById("completed")
       : document.getElementById("todo");
   parent.removeChild(item);
   target.insertBefore(item, target.childNodes[0]);
-}
+};
 
-function removeItem() {
-  let item = this.parentNode.parentNode;
-  let parent = item.parentNode;
+const removeItem = (e) => {
+  const item = e.target.parentNode.parentNode;
+  const parent = item.parentNode;
   parent.removeChild(item);
-}
+};
